@@ -53,10 +53,10 @@ public class ConcreteSyntax {
 			// bypass " main { "
 			match(header[i]);
 		}
-			p.decpart = declarations();
-			p.body = statements();
-			match("}");
-			return p;
+		p.decpart = declarations();
+		p.body = statements();
+		match("}");
+		return p;
 	}
 		
 	
@@ -88,7 +88,7 @@ public class ConcreteSyntax {
 		else if (token.getValue().equals("bool"))
 			t = new Type(token.getValue());
 		else
-			throw new RuntimeException(SyntaxError("int | boolean"));
+			throw new RuntimeException(SyntaxError("integer | boolean"));
 		token = input.nextToken(); // pass over the type
 		return t;
 	}
