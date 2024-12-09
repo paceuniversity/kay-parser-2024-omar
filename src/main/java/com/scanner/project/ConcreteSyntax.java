@@ -279,7 +279,7 @@ public class ConcreteSyntax {
 		} else if (token.getType().equals("Literal")) {
 			Value v = null;
 			if (isInteger(token.getValue()))
-				v = new Value((new Integer(token.getValue())).intValue());
+				v = new Value(Integer.parseInt(token.getValue()));
 			else if (token.getValue().equals("True"))
 				v = new Value(true);
 			else if (token.getValue().equals("False"))
