@@ -49,7 +49,7 @@ public class ConcreteSyntax {
 		// Program --> main '{' Declarations Statements '}'
 		String[] header = {"main", "{" };
 		Program p = new Program();
-		for (int i = 0; i < header.length; i++) {
+		for (int i = 0; i < header.length; i++){
 			// bypass " main { "
 			match(header[i]);
 		}
@@ -58,8 +58,6 @@ public class ConcreteSyntax {
 		match("}");
 		return p;
 	}
-		
-	
 
 	private Declarations declarations() {
 		// TODO TO BE COMPLETED 
@@ -136,7 +134,7 @@ public class ConcreteSyntax {
 			s = whileStatement();
 		} else if (token.getType().equals("Identifier")) { // Assignment
 			// TODO TO BE COMPLETED
-			s=assignment();
+			s = assignment();
 		} else
 			throw new RuntimeException(SyntaxError("Statement"));
 		return s;
@@ -208,7 +206,7 @@ public class ConcreteSyntax {
 		// TODO TO BE COMPLETED
 		while (token.getValue().equals("<") || token.getValue().equals("<=")
 			|| token.getValue().equals(">") || token.getValue().equals(">=")
-				|| token.getValue().equals("==") 
+				|| token.getValue().equals("==")
 				|| token.getValue().equals("<>")) {
 			b = new Binary();
 			// TODO TO BE COMPLETED
@@ -246,10 +244,10 @@ public class ConcreteSyntax {
 		while (token.getValue().equals("*") || token.getValue().equals("/")) {
 			b = new Binary();
 			// TODO TO BE COMPLETED
-			b.term1=e;
+			b.term1 = e;
 			b.op = new Operator(token.getValue());
 			token = input.nextToken();
-			b.term2=negation();
+			b.term2 = negation();
 			e = b;
 		}
 		return e;
@@ -306,12 +304,10 @@ public class ConcreteSyntax {
 		c.test = expression();
 		match(")");
 		c.thenbranch = statement();
-		if(token.getValue().equals("else")) 
-		{
+		if(token.getValue().equals("else")) {
 			token = input.nextToken();
 			c.elsebranch = statement();
 		}
-		
 		return c;
 	}
 
