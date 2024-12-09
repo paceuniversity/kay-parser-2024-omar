@@ -4,7 +4,7 @@ package com.scanner.project;
 
 // Implementation of the Recursive Descent Parser algorithm
 
-// Each method corresponds to a concrete syntax grammar rule, 
+//  Each method corresponds to a concrete syntax grammar rule, 
 // which appears as a comment at the beginning of the method.
 
 // This code DOES NOT implement a parser for KAY. You have to complete
@@ -14,7 +14,7 @@ package com.scanner.project;
 public class ConcreteSyntax {
 
 	// READ THE COMPLETE FILE FIRST
-
+	
 	// Instance variables
 	public Token token; // current token that is considered from the input stream
 	public TokenStream input; // stream of tokens generated in by the lexical analysis
@@ -46,21 +46,24 @@ public class ConcreteSyntax {
 	// Implementation of the Recursive Descent Parser
 
 	public Program program() {
-		// TODO TO BE COMPLETED
+		// TODO TO BE COMPLETED 
 		// Program --> main '{' Declarations Statements '}'
-		String[] header = { "main", "{" };
+		String[] header = {"main", "{" };
 		Program p = new Program();
-		for (int i = 0; i < header.length; i++)
+		for (int i = 0; i < header.length; i++){
 			// bypass " main { "
 			match(header[i]);
+		}
 		p.decpart = declarations();
 		p.body = statements();
 		match("}");
 		return p;
 	}
+		
+	
 
 	private Declarations declarations() {
-		// TODO TO BE COMPLETED
+		// TODO TO BE COMPLETED 
 		// Declarations --> { Declaration }*
 		Declarations ds = new Declarations();
 		while (token.getValue().equals("integer")
@@ -134,7 +137,7 @@ public class ConcreteSyntax {
 			s = whileStatement();
 		} else if (token.getType().equals("Identifier")) { // Assignment
 			// TODO TO BE COMPLETED
-			s = assignment();
+			s=assignment();
 		} else
 			throw new RuntimeException(SyntaxError("Statement"));
 		return s;
@@ -159,8 +162,6 @@ public class ConcreteSyntax {
 			token = input.nextToken();
 			match(":=");
 			a.source = expression();
-			match(";");
-//			token = input.nextToken();
 		} else
 			throw new RuntimeException(SyntaxError("Identifier"));
 		return a;
@@ -179,7 +180,6 @@ public class ConcreteSyntax {
 			b.term2 = conjunction();
 			e = b;
 		}
-//		token = input.nextToken();
 		return e;
 	}
 
@@ -197,7 +197,6 @@ public class ConcreteSyntax {
 			b.term2 = relation();
 			e = b;
 		}
-//		token = input.nextToken();
 		return e;
 	}
 
@@ -206,12 +205,11 @@ public class ConcreteSyntax {
 		Binary b;
 		Expression e;
 		e = addition();
-		// TODO TO BE CHECKED AND COMPLETED. Do we have all the operators?
+		// TODO TO BE COMPLETED
 		while (token.getValue().equals("<") || token.getValue().equals("<=")
-				|| token.getValue().equals(">")
-				|| token.getValue().equals(">=")
-				|| token.getValue().equals("==")
-				|| token.getValue().equals("!=")) {
+			|| token.getValue().equals(">") || token.getValue().equals(">=")
+				|| token.getValue().equals("==") 
+				|| token.getValue().equals("<>")) {
 			b = new Binary();
 			// TODO TO BE COMPLETED
 			b.term1 = e;
@@ -220,8 +218,6 @@ public class ConcreteSyntax {
 			b.term2 = addition();
 			e = b;
 		}
-//		token = input.nextToken();
-
 		return e;
 	}
 
@@ -233,13 +229,12 @@ public class ConcreteSyntax {
 		while (token.getValue().equals("+") || token.getValue().equals("-")) {
 			// TODO TO BE COMPLETED
 			b = new Binary();
-			b.op = new Operator(token.getValue());
 			b.term1 = e;
+			b.op = new Operator(token.getValue());
 			token = input.nextToken();
 			b.term2 = term();
 			e = b;
 		}
-//		token = input.nextToken();
 		return e;
 	}
 
@@ -251,13 +246,12 @@ public class ConcreteSyntax {
 		while (token.getValue().equals("*") || token.getValue().equals("/")) {
 			b = new Binary();
 			// TODO TO BE COMPLETED
-			b.term1 = e;
+			b.term1=e;
 			b.op = new Operator(token.getValue());
 			token = input.nextToken();
-			b.term2 = negation();
+			b.term2=negation();
 			e = b;
 		}
-
 		return e;
 	}
 
@@ -312,7 +306,7 @@ public class ConcreteSyntax {
 		c.test = expression();
 		match(")");
 		c.thenbranch = statement();
-		if (token.getValue().equals("else")) {
+		if(token.getValue().equals("else")) {
 			token = input.nextToken();
 			c.elsebranch = statement();
 		}
