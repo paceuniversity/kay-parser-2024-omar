@@ -301,8 +301,12 @@ public class ConcreteSyntax {
 		match(")");
 		c.thenbranch = statement();
 		if(token.getValue().equals("else")) {
-			token = input.nextToken();
+			match("else");
 			c.elsebranch = statement();
+		}
+		else
+		{
+			c.elsebranch = null;
 		}
 		return c;
 	}
