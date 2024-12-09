@@ -56,7 +56,7 @@ public class ConcreteSyntax {
 			p.decpart = declarations();
 			p.body = statements();
 			match("}");
-		return p;
+			return p;
 	}
 		
 	
@@ -156,10 +156,9 @@ public class ConcreteSyntax {
 		Assignment a = new Assignment();
 		if (token.getType().equals("Identifier")) {
 			// TODO TO BE COMPLETED
-			Variable v=new Variable();
-			v.id = token.getValue();
-			a.target = v;
-			match(token.getValue());
+			a.target = new Variable();
+			a.target.id = token.getValue();
+			token = input.nextToken();
 			match(":=");
 			a.source = expression();
 			match(";");
@@ -216,7 +215,7 @@ public class ConcreteSyntax {
 			// TODO TO BE COMPLETED
 			b.term1 = e;
 			b.op = new Operator(token.getValue());
-			match(token.getValue());
+			token = input.nextToken();
 			b.term2 = addition();
 			e = b;
 		}
@@ -234,7 +233,7 @@ public class ConcreteSyntax {
 			b = new Binary();
 			b.term1 = e;
 			b.op = new Operator(token.getValue());
-			match(token.getValue());
+			token = input.nextToken();
 			b.term2 = term();
 			e = b;
 		}
@@ -251,7 +250,7 @@ public class ConcreteSyntax {
 			// TODO TO BE COMPLETED
 			b.term1=e;
 			b.op = new Operator(token.getValue());
-			match(token.getValue()); // if breaks remove this first 
+			token = input.nextToken();
 			b.term2=negation();
 			e = b;
 		}
@@ -311,13 +310,10 @@ public class ConcreteSyntax {
 		c.thenbranch = statement();
 		if(token.getValue().equals("else")) 
 		{
-			match("else");
+			token = input.nextToken();
 			c.elsebranch = statement();
 		}
-		else
-		{
-			c.elsebranch = null;
-		}
+		
 		return c;
 	}
 
