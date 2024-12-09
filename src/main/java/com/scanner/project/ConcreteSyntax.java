@@ -49,13 +49,12 @@ public class ConcreteSyntax {
 		// Program --> main '{' Declarations Statements '}'
 		String[] header = {"main", "{" };
 		Program p = new Program();
-		for (int i = 0; i < header.length; i++){
+		for (int i = 0; i < header.length; i++)
 			// bypass " main { "
 			match(header[i]);
-		}
-		p.decpart = declarations();
-		p.body = statements();
-		match("}");
+			p.decpart = declarations();
+			p.body = statements();
+			match("}");
 		return p;
 	}
 
@@ -86,7 +85,7 @@ public class ConcreteSyntax {
 		else if (token.getValue().equals("bool"))
 			t = new Type(token.getValue());
 		else
-			throw new RuntimeException(SyntaxError("integer | boolean"));
+			throw new RuntimeException(SyntaxError("int | boolean"));
 		token = input.nextToken(); // pass over the type
 		return t;
 	}
@@ -134,7 +133,7 @@ public class ConcreteSyntax {
 			s = whileStatement();
 		} else if (token.getType().equals("Identifier")) { // Assignment
 			// TODO TO BE COMPLETED
-			s = assignment();
+			s=assignment();
 		} else
 			throw new RuntimeException(SyntaxError("Statement"));
 		return s;
@@ -154,9 +153,10 @@ public class ConcreteSyntax {
 		Assignment a = new Assignment();
 		if (token.getType().equals("Identifier")) {
 			// TODO TO BE COMPLETED
-			a.target = new Variable();
-			a.target.id = token.getValue();
-			token = input.nextToken();
+			Variable v=new Variable();
+			v.id = token.getValue();
+			a.target = v;
+			match(token.getValue());
 			match(":=");
 			a.source = expression();
 			match(";");
@@ -205,7 +205,7 @@ public class ConcreteSyntax {
 		e = addition();
 		// TODO TO BE COMPLETED
 		while (token.getValue().equals("<") || token.getValue().equals("<=")
-			|| token.getValue().equals(">") || token.getValue().equals(">=")
+				|| token.getValue().equals(">=")
 				|| token.getValue().equals("==")
 				|| token.getValue().equals("<>")) {
 			b = new Binary();
@@ -244,10 +244,6 @@ public class ConcreteSyntax {
 		while (token.getValue().equals("*") || token.getValue().equals("/")) {
 			b = new Binary();
 			// TODO TO BE COMPLETED
-			b.term1 = e;
-			b.op = new Operator(token.getValue());
-			token = input.nextToken();
-			b.term2 = negation();
 			e = b;
 		}
 		return e;
@@ -277,10 +273,10 @@ public class ConcreteSyntax {
 		} else if (token.getType().equals("Literal")) {
 			Value v = null;
 			if (isInteger(token.getValue()))
-				v = new Value(Integer.parseInt(token.getValue()));
-			else if (token.getValue().equals("True"))
+				v = new Value((new Integer(token.getValue())).intValue());
+			else if (token.getValue().equals("true"))
 				v = new Value(true);
-			else if (token.getValue().equals("False"))
+			else if (token.getValue().equals("false"))
 				v = new Value(false);
 			else
 				throw new RuntimeException(SyntaxError("Literal"));
