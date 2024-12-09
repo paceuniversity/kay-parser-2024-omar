@@ -49,10 +49,10 @@ public class ConcreteSyntax {
 		// Program --> main '{' Declarations Statements '}'
 		String[] header = {"main", "{" };
 		Program p = new Program();
-            for (String header1 : header) {
-                // bypass " main { "
-                match(header1);
-            }
+		for (int i = 0; i < header.length; i++){
+			// bypass " main { "
+			match(header[i]);
+		}
 		p.decpart = declarations();
 		p.body = statements();
 		match("}");
@@ -161,6 +161,7 @@ public class ConcreteSyntax {
 			token = input.nextToken();
 			match(":=");
 			a.source = expression();
+			match(";");
 		} else
 			throw new RuntimeException(SyntaxError("Identifier"));
 		return a;
