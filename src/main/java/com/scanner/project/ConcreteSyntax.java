@@ -50,10 +50,10 @@ public class ConcreteSyntax {
 		// Program --> main '{' Declarations Statements '}'
 		String[] header = {"main", "{" };
 		Program p = new Program();
-		for (int i = 0; i < header.length; i++){
+		for (int i = 0; i < header.length; i++)
 			// bypass " main { "
 			match(header[i]);
-		}
+		
 		p.decpart = declarations();
 		p.body = statements();
 		match("}");
@@ -66,8 +66,7 @@ public class ConcreteSyntax {
 		// TODO TO BE COMPLETED 
 		// Declarations --> { Declaration }*
 		Declarations ds = new Declarations();
-		while (token.getValue().equals("integer")
-				|| token.getValue().equals("bool")) {
+		while (token.getValue().equals("integer") || token.getValue().equals("bool")) {
 			declaration(ds);
 		}
 		return ds;
@@ -157,12 +156,17 @@ public class ConcreteSyntax {
 		Assignment a = new Assignment();
 		if (token.getType().equals("Identifier")) {
 			// TODO TO BE COMPLETED
-			a.target = new Variable();
-			a.target.id = token.getValue();
+			Variable v = new Variable();
+			v.id = token.getValue();
+			a.target = v;
+
+			// Parses the ":=" too.
 			token = input.nextToken();
 			match(":=");
-			a.source = expression();
-			match(";");
+
+			Expression e;
+			e = expression();
+			a.source = e;
 		} else
 			throw new RuntimeException(SyntaxError("Identifier"));
 		return a;
@@ -303,14 +307,17 @@ public class ConcreteSyntax {
 		// IfStatement --> if ( Expression ) Statement { else Statement }opt
 		Conditional c = new Conditional();
 		// TODO TO BE COMPLETED
-		match("if");
 		match("(");
-		c.test = expression();
+		Expression e = expression();
 		match(")");
-		c.thenbranch = statement();
-		if(token.getValue().equals("else")) {
-			token = input.nextToken();
-			c.elsebranch = statement();
+		c.test = e;
+		Statement then = statement();
+		c.thenbranch = then;
+		c.elsebranch = null;
+		if (token.getValue().equals("else")) {
+			match("else");
+			Statement elseStatement = statement();
+			c.elsebranch = elseStatement;
 		}
 		return c;
 	}
@@ -321,9 +328,11 @@ public class ConcreteSyntax {
 		// TODO TO BE COMPLETED
 		match("while");
 		match("(");
-		l.test = expression();
+		Expression e = expression();
 		match(")");
-		l.body = statement();
+		Statement body = statement();
+		l.test = e;
+		l.body = body;
 		return l;
 	}
 
