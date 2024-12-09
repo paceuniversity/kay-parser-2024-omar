@@ -189,7 +189,6 @@ public class ConcreteSyntax {
 		Expression e;
 		e = relation();
 		while (token.getValue().equals("&&")) {
-			match("&&");
 			b = new Binary();
 			// TODO TO BE COMPLETED
 			b.term1 = e;
@@ -207,10 +206,9 @@ public class ConcreteSyntax {
 		Expression e;
 		e = addition();
 		// TODO TO BE COMPLETED
-		while (token.getValue().equals("<") || token.getValue().equals("<=")
-				|| token.getValue().equals(">=")
-				|| token.getValue().equals("==")
-				|| token.getValue().equals("<>") || token.getValue().equals(">")) {
+		while (token.getValue().equals("<") || token.getValue().equals(">")
+				|| token.getValue().equals(">=") || token.getValue().equals("<=")
+				|| token.getValue().equals("==") || token.getValue().equals("<>")) {
 			b = new Binary();
 			// TODO TO BE COMPLETED
 			b.term1 = e;
@@ -282,9 +280,9 @@ public class ConcreteSyntax {
 			Value v = null;
 			if (isInteger(token.getValue()))
 				v = new Value((new Integer(token.getValue())).intValue());
-			else if (token.getValue().equals("true"))
+			else if (token.getValue().equals("True"))
 				v = new Value(true);
-			else if (token.getValue().equals("false"))
+			else if (token.getValue().equals("False"))
 				v = new Value(false);
 			else
 				throw new RuntimeException(SyntaxError("Literal"));
