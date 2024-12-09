@@ -206,9 +206,10 @@ public class ConcreteSyntax {
 		Expression e;
 		e = addition();
 		// TODO TO BE COMPLETED
-		while (token.getValue().equals("<") || token.getValue().equals(">")
-				|| token.getValue().equals(">=") || token.getValue().equals("<=")
-				|| token.getValue().equals("==") || token.getValue().equals("<>")) {
+		while (token.getValue().equals("<") || token.getValue().equals("<=")
+			|| token.getValue().equals(">") || token.getValue().equals(">=")
+				|| token.getValue().equals("==") 
+				|| token.getValue().equals("<>")) {
 			b = new Binary();
 			// TODO TO BE COMPLETED
 			b.term1 = e;
@@ -225,7 +226,6 @@ public class ConcreteSyntax {
 		Binary b;
 		Expression e;
 		e = term();
-		System.out.println("some string "+token.getValue());
 		while (token.getValue().equals("+") || token.getValue().equals("-")) {
 			// TODO TO BE COMPLETED
 			b = new Binary();
