@@ -47,17 +47,16 @@ public class ConcreteSyntax {
 	public Program program() {
 		// TODO TO BE COMPLETED 
 		// Program --> main '{' Declarations Statements '}'
-		String[] header = {"main", "{" };
 		Program p = new Program();
-		for (int i = 0; i < header.length; i++){
-			// bypass " main { "
-			match(header[i]);
-		}
+		match("main");
+		match("{");
 		p.decpart = declarations();
 		p.body = statements();
 		match("}");
 		return p;
 	}
+		
+	
 
 	private Declarations declarations() {
 		// TODO TO BE COMPLETED 
@@ -134,7 +133,7 @@ public class ConcreteSyntax {
 			s = whileStatement();
 		} else if (token.getType().equals("Identifier")) { // Assignment
 			// TODO TO BE COMPLETED
-			s = assignment();
+			s=assignment();
 		} else
 			throw new RuntimeException(SyntaxError("Statement"));
 		return s;
@@ -159,7 +158,6 @@ public class ConcreteSyntax {
 			token = input.nextToken();
 			match(":=");
 			a.source = expression();
-			match(";");
 		} else
 			throw new RuntimeException(SyntaxError("Identifier"));
 		return a;
@@ -206,7 +204,7 @@ public class ConcreteSyntax {
 		// TODO TO BE COMPLETED
 		while (token.getValue().equals("<") || token.getValue().equals("<=")
 			|| token.getValue().equals(">") || token.getValue().equals(">=")
-				|| token.getValue().equals("==")
+				|| token.getValue().equals("==") 
 				|| token.getValue().equals("<>")) {
 			b = new Binary();
 			// TODO TO BE COMPLETED
@@ -244,10 +242,10 @@ public class ConcreteSyntax {
 		while (token.getValue().equals("*") || token.getValue().equals("/")) {
 			b = new Binary();
 			// TODO TO BE COMPLETED
-			b.term1 = e;
+			b.term1=e;
 			b.op = new Operator(token.getValue());
 			token = input.nextToken();
-			b.term2 = negation();
+			b.term2=negation();
 			e = b;
 		}
 		return e;
